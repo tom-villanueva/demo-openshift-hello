@@ -1,6 +1,5 @@
 FROM bitnami/node:16.13.0 AS build-step
 
-RUN mkdir /app
 WORKDIR /app
 
 COPY package.json /app
