@@ -1,13 +1,15 @@
 FROM bitnami/node:16.13.0 AS build-step
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY package.json /app
-#COPY package-lock.json ./
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm install
-COPY . /app
+COPY . ./
 
 RUN npm run build
 
 FROM bitnami/nginx:latest 
-COPY --from=build-step /app/build /usr/share/nginx/html
+COPY --from=build-step /usr/src/app/build /app
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
